@@ -1056,7 +1056,7 @@ def main():
                                 """, unsafe_allow_html=True)
                                 
                                 # Store response for download
-                                st.session_state['latest_advanced_case'] = {
+                                st.session_state['latest_advanced_document'] = {
                                     'content': response,
                                     'type': case_type,
                                     'category': visa_category,
@@ -1066,16 +1066,16 @@ def main():
                         st.warning("Please provide case background and legal issues.")
             
             # Download button outside form
-            if 'latest_advanced_case' in st.session_state:
+            if 'latest_advanced_document' in st.session_state:
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                filename = f"{st.session_state['latest_advanced_case']['type'].replace(' ', '_')}_{timestamp}.txt"
-                download_content = f"LAWTRAX IMMIGRATION SERVICES\n{st.session_state['latest_advanced_case']['type'].upper()}\n{'='*60}\n\nCase: {st.session_state['latest_advanced_case']['category']}\nCase Number: {st.session_state['latest_advanced_case']['case_number']}\n\n{st.session_state['latest_advanced_case']['content']}\n\nGenerated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+                filename = f"{st.session_state['latest_advanced_document']['type'].replace(' ', '_')}_{timestamp}.txt"
+                download_content = f"LAWTRAX IMMIGRATION SERVICES\n{st.session_state['latest_advanced_document']['type'].upper()}\n{'='*60}\n\nCase: {st.session_state['latest_advanced_document']['category']}\nCase Number: {st.session_state['latest_advanced_document']['case_number']}\n\n{st.session_state['latest_advanced_document']['content']}\n\nGenerated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
                 st.download_button(
                     "📥 Download Document",
                     data=download_content,
                     file_name=filename,
                     mime="text/plain",
-                    key="download_advanced_case"
+                    key="download_advanced_document"
                 )
         
         st.markdown("</div>", unsafe_allow_html=True)
@@ -1340,7 +1340,7 @@ def main():
                                 'expert': expert_name
                             }
             
-            # Download button for country conditions
+            # Download button for country conditions opinion
             if 'latest_expert_opinion' in st.session_state and st.session_state['latest_expert_opinion']['type'] == 'Country_Conditions_Expert_Opinion':
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
                 filename = f"Country_Conditions_Expert_Opinion_{timestamp}.txt"
@@ -1423,7 +1423,7 @@ def main():
                             }
             
             # Download button for general expert opinion
-            if 'latest_expert_opinion' in st.session_state and st.session_state['latest_expert_opinion']['type'] not in ['Position_Expert_Opinion', 'Extraordinary_Ability_Expert_Opinion', 'Country_Conditions_Expert_Opinion']:
+            if 'latest_expert_opinion' in st.session_state and 'General' in st.session_state['latest_expert_opinion']['type']:
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
                 filename = f"{st.session_state['latest_expert_opinion']['type']}_{timestamp}.txt"
                 download_content = f"LAWTRAX IMMIGRATION SERVICES\n{st.session_state['latest_expert_opinion']['type'].replace('_', ' ').upper()}\n{'='*60}\n\n{st.session_state['latest_expert_opinion']['content']}\n\nGenerated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
@@ -1432,7 +1432,7 @@ def main():
                     data=download_content,
                     file_name=filename,
                     mime="text/plain",
-                    key="download_general_opinion"
+                    key="download_general_expert_opinion"
                 )
         
         st.markdown("</div>", unsafe_allow_html=True)
@@ -2503,49 +2503,14 @@ def main():
                 assess_eligibility = st.form_submit_button("📊 Assess Visa Eligibility", type="primary")
                 
                 if assess_eligibility:
-                    assessment_details = {
-                        "current_status": current_status,
-                        "education_level": education_level,
-                        "work_experience": work_experience,
-                        "field_of_expertise": field_of_expertise,
-                        "employer_sponsorship": employer_sponsorship,
-                        "family_ties": family_ties,
-                        "special_circumstances": special_circumstances
-                    }
-                    
-                    # Generate comprehensive eligibility assessment
-                    assessment_response = generate_comprehensive_immigration_response(
-                        "Visa Eligibility Assessment", 
-                        "General Immigration Matter", 
-                        assessment_details
-                    )
-                    
-                    if assessment_response:
-                        st.markdown("### 📊 Visa Eligibility Assessment Results")
-                        st.markdown(f"""
-                        <div class="success-box">
-                            {assessment_response}
-                        </div>
-                        """, unsafe_allow_html=True)
-                        
-                        # Store for download
-                        st.session_state['latest_assessment'] = {
-                            'content': assessment_response,
-                            'details': assessment_details
-                        }
-            
-            # Download button for assessment
-            if 'latest_assessment' in st.session_state:
-                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                filename = f"Visa_Eligibility_Assessment_{timestamp}.txt"
-                download_content = f"LAWTRAX IMMIGRATION SERVICES\nVISA ELIGIBILITY ASSESSMENT\n{'='*60}\n\n{st.session_state['latest_assessment']['content']}\n\nGenerated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
-                st.download_button(
-                    "📥 Download Assessment",
-                    data=download_content,
-                    file_name=filename,
-                    mime="text/plain",
-                    key="download_assessment"
-                )
+                    # This would generate a comprehensive eligibility assessment
+                    st.markdown("""
+                    <div class="success-box">
+                        <strong>✅ Eligibility Assessment Generated:</strong> Based on the provided information, 
+                        a comprehensive analysis of potential visa options would be generated here, including recommended 
+                        strategies and timeline considerations.
+                    </div>
+                    """, unsafe_allow_html=True)
         
         st.markdown("</div>", unsafe_allow_html=True)
 
